@@ -1,0 +1,44 @@
+.container {
+  width: 80%;
+  height: 100%;
+  position: absolute;
+  background-color: transparent;
+}
+.tv-box {
+  z-index: 5;
+  right: 7%;
+  position: relative;
+  width: 1200px;
+  height: 600px;
+  display: inline-flex;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: transparent;
+}
+/* https://codepen.io/ricksinclair/pen/qJLBvz
+    originally from https://codepen.io/gerbata/pen/jBaggE
+*/
+.outline {
+  display: inline-block;
+  border-style: solid;
+  border-width: 5px;
+  border-color: black;
+  background-color: grey;
+  height: 50px;
+  margin: none;
+  padding: none;
+}
+
+.video-container {
+  z-index: -2;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  width: 980px;
+  height: 600px;
+  z-index: -100;
+  transform: translateX(-50%) translateY(-50%);
+  background-size: cover;
+  transition: 1s opacity;
+  background-color: black;
+}

@@ -1,0 +1,11 @@
+Main Features/Psuedocode
+========================
+
+
+
+
+TV/Game will all be one object with many methods and properties. 
+
+TV will hold content of the game, 
+
+each question will prompt the tv to "receive interference, and the page will load after the video plays.
