@@ -26,7 +26,7 @@ var television = {
       //and answers. My goal was to create a structure that
       //complimented the function of the game, similar to how
       //the stopwatch example was constructed.
-      //I'm going to have the form set the player's answer(via radio button) to
+      //I'm going to have the form set the player's answer(via "radio" button) to
       //one of four strings. The 3 strings are wrong and one is identical to the correct answer
       //if the player's string and the correct  answer are identical. the correctlyAnswered variable is set to true and the
       //player is then awarded points.
@@ -116,6 +116,62 @@ var television = {
           var imgUrl = "";
           var soundClipUrl = "";
         }
+      },
+      {
+        question:
+          "How much money did LL Cool J bank in 20 minutes according to his 1985 hit 'Rock The Bells' ?",
+
+        A: "20",
+        B: "6",
+        C: "10",
+        D: "50",
+        CorrectAnswer: "6",
+
+        actionset: function() {
+          var imgUrl = "";
+          var soundClipUrl = "";
+        }
+      },
+      {
+        question: "QUEEN LATIFA QUESTION",
+        A: "20",
+        B: "6",
+        C: "10",
+        D: "50",
+        CorrectAnswer: "6",
+
+        actionset: function() {
+          var imgUrl = "";
+          var soundClipUrl = "";
+        }
+      },
+      {
+        question: "TUPAC QUESTION",
+
+        A: "20",
+        B: "6",
+        C: "10",
+        D: "50",
+        CorrectAnswer: "6",
+
+        actionset: function() {
+          var imgUrl = "";
+          var soundClipUrl = "";
+        }
+      },
+      {
+        question: "BIGGIE QUESTION",
+
+        A: "20",
+        B: "6",
+        C: "10",
+        D: "50",
+        CorrectAnswer: "6",
+
+        actionset: function() {
+          var imgUrl = "";
+          var soundClipUrl = "";
+        }
       }
     ],
 
@@ -123,12 +179,13 @@ var television = {
     gameMechanics: {
       x: 0,
       drawQuestion: function(indexNumber) {
-        TriviaGame.gameMechanics.fadeAndClear();
-        var CurrentQuestion = TriviaGame.questionBank[indexNumber].question;
-        var answerA = TriviaGame.questionBank[indexNumber].A;
-        var answerB = TriviaGame.questionBank[indexNumber].B;
-        var answerC = TriviaGame.questionBank[indexNumber].C;
-        var answerD = TriviaGame.questionBank[indexNumber].D;
+        $("#game-space").empty();
+        var CurrentQuestion =
+          television.TriviaGame.questionBank[indexNumber].question;
+        var answerA = television.TriviaGame.questionBank[indexNumber].A;
+        var answerB = television.TriviaGame.questionBank[indexNumber].B;
+        var answerC = television.TriviaGame.questionBank[indexNumber].C;
+        var answerD = television.TriviaGame.questionBank[indexNumber].D;
         var CorrectAnswer =
           television.TriviaGame.questionBank[indexNumber].CorrectAnswer;
 
@@ -154,55 +211,62 @@ var television = {
         var hr5 = $("<hr/>", {
           id: "hr-5"
         });
-
+        /////////////////CHOICE A/////////////////////////////////
         var choiceA = $("<input />", {
-          type: radio,
+          type: "radio",
           id: "choiceA",
           value: answerA
         });
-
-        var choiceALabel = $("< />", {
+        var choiceALabel = $("<label />", {
           for: "choiceA"
-        });
+        }).text(answerA);
+        /////////////////CHOICE B/////////////////////////////////
         var choiceB = $("<input />", {
-          type: radio,
+          type: "radio",
           id: "choiceB",
           value: answerB
         });
+        var choiceBLabel = $("<label />", {
+          for: "choiceB"
+        }).text(answerB);
+        /////////////////CHOICE C/////////////////////////////////
+        var choiceC = $("<input />", {
+          type: "radio",
 
-        var choiceBLabel = $("<input />", {
-          id: "choiceB",
-          value: answerB
-        });
-        var choiceC = $("<input />", {
-          id: "choiceB",
-          value: answerB
-        });
-        var choiceC = $("<input />", {
           id: "choiceC",
-          value: answerC
+          value: choiceC
         });
 
-        var choiceALabel = $("<input />", {
-          for: "choiceA"
-        });
+        var choiceCLabel = $("<label></label>", {
+          for: "choiceC"
+        }).text(answerC);
+        /////////////////CHOICE D/////////////////////////////////
+        var choiceD = $("<input />", {
+          type: "radio",
 
-        var choiceB = $("<input />", {
-          id: "choiceB",
-          value: answerB
+          id: "choiceD",
+          value: answerD
         });
+        var choiceDLabel = $("<label></label>", {
+          for: "choiceD"
+        }).text(answerD);
 
-        var choiceBLabel = $("<input />", {
-          id: "choiceB",
-          value: answerB
-        });
-        var choiceC = $("<input />", {
-          id: "choiceA",
-          value: answerA
-        });
+        $("#game-space").append(form);
 
-        var choiceD = $("").text(CurrentQuestion);
-        var quizForm = $(question).attr("id", "question");
+        $(form).append(question);
+        $(hr1).insertAfter(question);
+        $(choiceA).insertAfter(hr1);
+        $(choiceALabel).insertAfter(choiceA);
+        $(hr2).insertAfter(choiceALabel);
+        $(choiceB).insertAfter(hr2);
+        $(choiceBLabel).insertAfter(choiceB);
+        $(hr3).insertAfter(choiceBLabel);
+        $(choiceC).insertAfter(hr3);
+        $(choiceCLabel).insertAfter(choiceC);
+        $(hr4).insertAfter(choiceCLabel);
+        $(choiceD).insertAfter(hr4);
+        $(choiceDLabel).insertAfter(choiceD);
+        $(hr5).insertAfter(choiceDLabel);
       },
 
       fadeGameSpace: function() {
@@ -218,11 +282,12 @@ var television = {
     },
 
     //this function will control our timer
-    timer: function() {}
+    timerChallengeMode: function() {}
   }
 };
-
+television.TriviaGame.gameMechanics.drawQuestion(1);
 television.TriviaGame.gameMechanics.fadeGameSpace();
+
 // $("document").ready(function() {
 //   console.log(television.TriviaGame.questionBank);
 //   //   $("#game-space").fadeOut(1600, "linear");
@@ -242,3 +307,8 @@ television.TriviaGame.gameMechanics.fadeGameSpace();
 // television.TriviaGame.questionBank[0].actionSet();
 
 //ALSO FOUND THIS ON W3SCHOOLS https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_av_met_load
+
+//found this on stack overflow. I can queue my video on/off effect by time. https://stackoverflow.com/questions/5981427/start-html5-video-at-a-particular-position-when-loading
+// document.getElementById('vid1').addEventListener('loadedmetadata', function() {
+//   this.currentTime = 50;
+// }, false);
