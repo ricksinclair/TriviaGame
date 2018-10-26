@@ -132,38 +132,48 @@ var television = {
         var CorrectAnswer =
           television.TriviaGame.questionBank[indexNumber].CorrectAnswer;
 
-        var form = $("<form></form>");
-        form.attr("id", "question-card");
-        var question = $("<h2></h2>").text(CurrentQuestion);
-        form.append(question);
-        var rule1;
-        var rule1;
-        var rule1;
-        var rule1;
+        var form = $("<form></form>", {
+          id: "question-card"
+        });
+        var question = $("<h2></h2>", {
+          id: "question-asked"
+        }).text(CurrentQuestion);
+
+        var hr1 = $("<hr/>", {
+          id: "hr-1"
+        });
+        var hr2 = $("<hr/>", {
+          id: "hr-2"
+        });
+        var hr3 = $("<hr/>", {
+          id: "hr-3"
+        });
+        var hr4 = $("<hr/>", {
+          id: "hr-4"
+        });
+        var hr5 = $("<hr/>", {
+          id: "hr-5"
+        });
+
         var choiceA = $("<input />", {
           type: radio,
           id: "choiceA",
           value: answerA
         });
-        question.append(choicA);
 
-        var choiceALabel = $("<input />", {
+        var choiceALabel = $("< />", {
           for: "choiceA"
         });
-        choiceALabel.append(ChoiceA);
-        choiceA.append(choiceALabel);
         var choiceB = $("<input />", {
           type: radio,
           id: "choiceB",
           value: answerB
         });
-        choiceALabel.append(choiceALabel);
 
         var choiceBLabel = $("<input />", {
           id: "choiceB",
           value: answerB
         });
-        choiceBLabel.append(choiceB);
         var choiceC = $("<input />", {
           id: "choiceB",
           value: answerB
@@ -172,24 +182,20 @@ var television = {
           id: "choiceC",
           value: answerC
         });
-        choiceA.append(form);
 
         var choiceALabel = $("<input />", {
           for: "choiceA"
         });
-        choiceALabel.append(ChoiceA);
 
         var choiceB = $("<input />", {
           id: "choiceB",
           value: answerB
         });
-        choiceB.append(choiceALabel);
 
         var choiceBLabel = $("<input />", {
           id: "choiceB",
           value: answerB
         });
-        choiceBLabel.append(choiceB);
         var choiceC = $("<input />", {
           id: "choiceA",
           value: answerA
