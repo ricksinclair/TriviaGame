@@ -9,6 +9,7 @@ body {
   height: 90%;
   position: absolute;
   background-color: transparent;
+  z-index: -100;
 }
 .tv-box {
   z-index: 5;
@@ -27,7 +28,7 @@ body {
 .outline {
   display: inline-block;
   border-style: solid;
-  border-width: 5px;
+  border-width: 4px;
   border-color: black;
   background-color: grey;
   height: 50px;
@@ -77,5 +78,31 @@ body {
   background-size: cover;
   background-color: transparent;
   color: white;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Oswald", sans-serif;
+  font-size-adjust: initial;
+}
+
+.submit:hover {
+  transition: 0.3s;
+  transform: scale(1.1);
+}
+
+.submit:active {
+  border-style: solid;
+  border-width: 3px;
+  border-color: white;
+}
+
+#transparent-bg {
+  width: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.6);
+  opacity: 1;
+  color: white;
+}
+
+#solid-text {
+  position: relative;
+  opacity: 1;
+  background-color: transparent;
 }

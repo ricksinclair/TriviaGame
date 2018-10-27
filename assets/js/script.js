@@ -16,6 +16,7 @@ var television = {
 
   TriviaGame: {
     userScore: 0,
+    correctAnswers: 0,
 
     userAnswer: "",
 
@@ -121,10 +122,10 @@ var television = {
         question:
           "How much money did LL Cool J bank in 20 minutes according to his 1985 hit 'Rock The Bells' ?",
 
-        A: "20",
-        B: "6",
-        C: "10",
-        D: "50",
+        A: "$20,000",
+        B: "$6,000",
+        C: "$10,000",
+        D: "$50,000",
         CorrectAnswer: "6",
 
         actionset: function() {
@@ -133,12 +134,13 @@ var television = {
         }
       },
       {
-        question: "QUEEN LATIFA QUESTION",
-        A: "20",
-        B: "6",
-        C: "10",
-        D: "50",
-        CorrectAnswer: "6",
+        question:
+          "This Hip Hop legend got their big break alongside DJ Gemini and Flavor Unit with their hit 'Princess of the Posse':  ",
+        A: "Mc Lyte",
+        B: "Roxanne",
+        C: "Queen Latifah",
+        D: "Da Brat",
+        CorrectAnswer: "Queen Latifah",
 
         actionset: function() {
           var imgUrl = "";
@@ -146,7 +148,8 @@ var television = {
         }
       },
       {
-        question: "TUPAC QUESTION",
+        question:
+          ' In which classic rap song would you hear the line, "Most of my heroes don\'t appear on no stamps"?',
 
         A: "20",
         B: "6",
@@ -162,10 +165,10 @@ var television = {
       {
         question: "BIGGIE QUESTION",
 
-        A: "20",
-        B: "6",
-        C: "10",
-        D: "50",
+        A: "$20,000",
+        B: "$6,00",
+        C: "$10,000",
+        D: "$50,000",
         CorrectAnswer: "6",
 
         actionset: function() {
@@ -186,8 +189,6 @@ var television = {
         var answerB = television.TriviaGame.questionBank[indexNumber].B;
         var answerC = television.TriviaGame.questionBank[indexNumber].C;
         var answerD = television.TriviaGame.questionBank[indexNumber].D;
-        var CorrectAnswer =
-          television.TriviaGame.questionBank[indexNumber].CorrectAnswer;
 
         var form = $("<form></form>", {
           id: "question-card"
@@ -211,11 +212,13 @@ var television = {
         var hr5 = $("<hr/>", {
           id: "hr-5"
         });
+
         /////////////////CHOICE A/////////////////////////////////
         var choiceA = $("<input />", {
           type: "radio",
           id: "choiceA",
-          value: answerA
+          value: answerA,
+          name: "radioAnswer"
         });
         var choiceALabel = $("<label />", {
           for: "choiceA"
@@ -224,7 +227,8 @@ var television = {
         var choiceB = $("<input />", {
           type: "radio",
           id: "choiceB",
-          value: answerB
+          value: answerB,
+          name: "radioAnswer"
         });
         var choiceBLabel = $("<label />", {
           for: "choiceB"
@@ -234,7 +238,8 @@ var television = {
           type: "radio",
 
           id: "choiceC",
-          value: choiceC
+          value: choiceC,
+          name: "radioAnswer"
         });
 
         var choiceCLabel = $("<label></label>", {
@@ -245,14 +250,22 @@ var television = {
           type: "radio",
 
           id: "choiceD",
-          value: answerD
+          value: answerD,
+          name: "radioAnswer"
         });
         var choiceDLabel = $("<label></label>", {
           for: "choiceD"
         }).text(answerD);
-
+        var submitButton = $("<img></img>", {
+          class: "submit",
+          src: "assets/img/submit.jpg",
+          height: "60px",
+          width: "100px"
+        }).click(function() {
+          event.preventDefault();
+          television.TriviaGame.gameMechanics.checkAnswer(indexNumber);
+        });
         $("#game-space").append(form);
-
         $(form).append(question);
         $(hr1).insertAfter(question);
         $(choiceA).insertAfter(hr1);
@@ -267,15 +280,46 @@ var television = {
         $(choiceD).insertAfter(hr4);
         $(choiceDLabel).insertAfter(choiceD);
         $(hr5).insertAfter(choiceDLabel);
+        $(submitButton).insertAfter(hr5);
       },
 
       fadeGameSpace: function() {
         $("#video-element").hide();
+        $("#video-element").fadeIn(5000, "linear");
         $("#game-space").hide();
         $("#game-space").fadeIn(5000, "linear");
-        $("#video-element").fadeIn(5000, "linear");
-        $("#game-space").fadeOut(8000, "linear");
-        $("#video-element").fadeOut(9000, "linear");
+        $("#video-element").fadeOut(8000, "linear");
+      },
+
+      checkAnswer: function(indexNumber) {
+        userAnswer = $("input[name=radioAnswer]:checked").val();
+        console.log(userAnswer);
+        if (
+          userAnswer ===
+          television.TriviaGame.questionBank[indexNumber].CorrectAnswer
+        ) {
+          console.log("true");
+          var answerReveal = $("<h3></h3>", {
+            id: answerReveal
+          }).text(
+            television.TriviaGame.questionBank[indexNumber].CorrectAnswer
+          );
+
+          $("#question-card").fadeOut(1000, function() {
+            $(this).remove();
+          });
+          $("<h1></h1>", {
+            id: "question-asked"
+          }).append("#game-space");
+
+          $(answerReveal)
+            .insertAfter("#question-asked")
+            .fadeIn(5000, "linear");
+
+          answerReveal;
+          television.TriviaGame.userScore++;
+          television.TriviaGame.correctAnswers++;
+        }
       },
 
       clearGameSpace: function() {}
@@ -285,8 +329,13 @@ var television = {
     timerChallengeMode: function() {}
   }
 };
-television.TriviaGame.gameMechanics.drawQuestion(1);
-television.TriviaGame.gameMechanics.fadeGameSpace();
+television.TriviaGame.gameMechanics.drawQuestion(0);
+// television.TriviaGame.gameMechanics.drawQuestion(1);
+// television.TriviaGame.gameMechanics.drawQuestion(2);
+// television.TriviaGame.gameMechanics.drawQuestion(3);
+// television.TriviaGame.gameMechanics.drawQuestion(6);
+// $("#video-element").fadeOut(8000, "linear");
+// television.TriviaGame.gameMechanics.fadeGameSpace();
 
 // $("document").ready(function() {
 //   console.log(television.TriviaGame.questionBank);
