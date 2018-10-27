@@ -9,3 +9,9 @@ TV/Game will all be one object with many methods and properties.
 TV will hold content of the game, 
 
 each question will prompt the tv to "receive interference, and the page will load after the video plays.
+
+
+question logic checks string of user selection against string provided in the CorrectAnswer property.
+
+the game will check to see if the object matches the array length - 1 (Making it the last in the array) and return the page to its original state after displaying
+a video rewarding the user for their win (or loss). Will calculate percentage by correct answers/#total questions. Will multiply it by 100  and tack on a "%" for user to digesst. 

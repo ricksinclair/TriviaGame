@@ -18,8 +18,6 @@ var television = {
     userScore: 0,
     correctAnswers: 0,
 
-    userAnswer: "",
-
     timers: function() {},
 
     questionBank: [
@@ -67,7 +65,7 @@ var television = {
           "Who is the 'Lifestylez ov da Poor and Dangerous' rapper who famously freestyled with  Jay-Z on 'Stretch and Bobbito' in 1995?",
 
         A: "Big Sherm",
-        B: "'Lil Pistol Starter",
+        B: "Lil Pistol Starter",
         C: "Big L",
         D: "Stack Bundles",
         CorrectAnswer: "Big L",
@@ -236,9 +234,8 @@ var television = {
         /////////////////CHOICE C/////////////////////////////////
         var choiceC = $("<input />", {
           type: "radio",
-
           id: "choiceC",
-          value: choiceC,
+          value: answerC,
           name: "radioAnswer"
         });
 
@@ -263,6 +260,7 @@ var television = {
           width: "100px"
         }).click(function() {
           event.preventDefault();
+          $("game-space").empty();
           television.TriviaGame.gameMechanics.checkAnswer(indexNumber);
         });
         $("#game-space").append(form);
@@ -292,33 +290,37 @@ var television = {
       },
 
       checkAnswer: function(indexNumber) {
-        userAnswer = $("input[name=radioAnswer]:checked").val();
+        console.log("the index number is:" + indexNumber);
+        console.log($("[name=radioAnswer]:checked").val());
+        var userAnswer = $("input[name='radioAnswer']:checked").val();
         console.log(userAnswer);
         if (
-          userAnswer ===
+          userAnswer ==
           television.TriviaGame.questionBank[indexNumber].CorrectAnswer
         ) {
           console.log("true");
           var answerReveal = $("<h3></h3>", {
             id: answerReveal
           }).text(
-            television.TriviaGame.questionBank[indexNumber].CorrectAnswer
+            "The correct answer was: " +
+              television.TriviaGame.questionBank[indexNumber].CorrectAnswer
           );
-
-          $("#question-card").fadeOut(1000, function() {
-            $(this).remove();
-          });
+          $("#game-space").fadeOut(1000, "linear");
+          $("#game-space").empty();
           $("<h1></h1>", {
-            id: "question-asked"
+            id: "question-asked",
+            text: television.TriviaGame.questionBank[indexNumber].question
           }).append("#game-space");
+          console.log($("#question-asked"));
+          $("#game-space").show();
+          $("#game-space").fadeIn(1000, "linear");
 
-          $(answerReveal)
-            .insertAfter("#question-asked")
-            .fadeIn(5000, "linear");
-
-          answerReveal;
           television.TriviaGame.userScore++;
+
+          console.log(television.TriviaGame.userScore);
           television.TriviaGame.correctAnswers++;
+        } else {
+          console.log("false");
         }
       },
 
@@ -333,6 +335,8 @@ television.TriviaGame.gameMechanics.drawQuestion(0);
 // television.TriviaGame.gameMechanics.drawQuestion(1);
 // television.TriviaGame.gameMechanics.drawQuestion(2);
 // television.TriviaGame.gameMechanics.drawQuestion(3);
+// television.TriviaGame.gameMechanics.drawQuestion(4);
+// television.TriviaGame.gameMechanics.drawQuestion(5);
 // television.TriviaGame.gameMechanics.drawQuestion(6);
 // $("#video-element").fadeOut(8000, "linear");
 // television.TriviaGame.gameMechanics.fadeGameSpace();
