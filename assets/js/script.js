@@ -2,18 +2,6 @@
 //core all of the  functionality be based on this TV object.
 
 var television = {
-  staticVideo: {
-    play: function() {},
-
-    close: function() {},
-
-    changeChannel: function() {
-      $("#innerTV").html(
-        "<video width=300 height=200 autoplay=autoplay><source src=video/supercoolvideo.mp4 type=video/mp4 /></video>"
-      );
-    }
-  },
-
   TriviaGame: {
     userScore: 0,
     correctAnswers: 0,
@@ -88,7 +76,7 @@ var television = {
         C: "Busta Rhymes",
         D: "DMX",
         CorrectAnswer: "Nas",
-        videoUrl: "assets/video/WuVideo.mp4"
+        videoUrl: "assets/video/NasIsLike.mp4"
       },
       {
         question:
@@ -138,7 +126,6 @@ var television = {
     gameMechanics: {
       x: 0,
       drawQuestion: function(indexNumber) {
-        $("#game-space").empty();
         var CurrentQuestion =
           television.TriviaGame.questionBank[indexNumber].question;
         var answerA = television.TriviaGame.questionBank[indexNumber].A;
@@ -211,6 +198,7 @@ var television = {
         var choiceDLabel = $("<label></label>", {
           for: "choiceD"
         }).text(answerD);
+
         var submitButton = $("<img></img>", {
           class: "submit",
           src: "assets/img/submit.jpg",
@@ -221,7 +209,13 @@ var television = {
           $("game-space").empty();
           television.TriviaGame.gameMechanics.checkAnswer(indexNumber);
         });
+
+        var timerDisplay = $("<h1></h1>", {
+          text: " time left: 25",
+          id: "timer-display"
+        });
         television.TriviaGame.gameMechanics.addStatic();
+        $("#game-space").fadeIn(3000);
         $("#game-space").append(form);
         $(form).append(question);
         $(hr1).insertAfter(question);
@@ -238,6 +232,7 @@ var television = {
         $(choiceDLabel).insertAfter(choiceD);
         $(hr5).insertAfter(choiceDLabel);
         $(submitButton).insertAfter(hr5);
+        $(timerDisplay).insertAfter(submitButton);
       },
 
       fadeGameSpace: function() {
@@ -260,14 +255,23 @@ var television = {
           television.TriviaGame.questionBank[indexNumber].videoUrl
         );
         videoElement.trigger("play");
-        if (document.getElementById("video-element").muted == false) {
-          document.getElementById("video-element").muted = true;
+        if (document.getElementById("video-element").muted == true) {
+          document.getElementById("video-element").muted = false;
         }
       },
 
       addStatic: function() {
+        var staticAudio = $("<audio />", {
+          id: "static-audio",
+          src: "assets/audio/FM Radio Tune 05 Sound Effect.mp3"
+        });
         var videoSource = $("#video-source");
         var videoElement = $("#video-element");
+        $(document).ready(function() {
+          $(staticAudio)
+            .get(0)
+            .play();
+        });
         videoElement.trigger("pause");
         videoSource.removeAttr("src"); // empty source
         videoSource.trigger("load");
@@ -303,32 +307,67 @@ var television = {
             id: "question-asked",
             text: television.TriviaGame.questionBank[indexNumber].question
           });
-          $("#game-space").fadeOut(400);
-          $("#game-space")
-            .empty()
-            .hide();
 
-          $("#game-space")
-            .show()
-            .fadeIn(500);
+          // $("#game-space").prepend(onPoint);
+          // $("#game-space").append(answerCard);
+          // $("#game-space").append(answerReveal);
+          // $("#game-space");
+          // .show()
+          // .fadeIn(500);
+          var nextButton = $("<img></img>", {
+            id: "next",
+            class: "submit",
+            src: "assets/img/next.jpg",
+            height: "60px",
+            width: "100px"
+          }).click(function() {
+            if (
+              indexNumber + 1 <
+              television.TriviaGame.questionBank.length - 1
+            ) {
+              $("#game-space").fadeOut(3000);
+              setTimeout(function() {
+                $("#game-space").empty();
 
-          $("#game-space").prepend(onPoint);
-          $("#game-space").append(answerCard);
-          $("#game-space").append(answerReveal);
-          $("#game-space")
-            .show()
-            .fadeIn(500);
+                television.TriviaGame.gameMechanics.drawQuestion(
+                  indexNumber + 1
+                );
+              }, 3000);
+            }
+          });
+          var staticAudio = $("<audio />", {
+            id: "static-audio",
+            src: "assets/audio/FM Radio Tune 05 Sound Effect.mp3"
+          });
+          $(staticAudio)
+            .get(0)
+            .play();
 
-          $("#game-space").prepend(onPoint);
-          $("#game-space").append(answerCard);
-          $("#game-space").append(answerReveal);
-          $("#game-space").addClass("transparent-bg");
+          $("#game-space").fadeOut(3000);
+          setTimeout(function() {
+            $("#game-space").empty();
 
-          console.log($(""));
-          television.TriviaGame.gameMechanics.changeChannel(indexNumber);
+            $("#game-space").fadeIn();
+
+            $("#game-space").prepend(onPoint);
+            $("#game-space").append(answerCard);
+            $("#game-space").append(answerReveal);
+            $("#game-space").addClass("transparent-bg");
+            setTimeout(function() {
+              $("#game-space")
+                .append(nextButton)
+                .fadeIn(2000);
+            }, 5000);
+
+            television.TriviaGame.gameMechanics.changeChannel(indexNumber);
+          }, 7000);
+
           television.TriviaGame.userScore++;
 
-          console.log(television.TriviaGame.userScore);
+          console.log(
+            "This is the user's current score:" +
+              television.TriviaGame.userScore
+          );
           television.TriviaGame.correctAnswers++;
         } else {
           console.log("false");
@@ -346,55 +385,70 @@ var television = {
             id: "question-asked",
             text: television.TriviaGame.questionBank[indexNumber].question
           });
-          $("#game-space").fadeOut(400);
-          $("#game-space")
-            .empty()
-            .hide();
+          $("#game-space").fadeOut(3000);
+          setTimeout(function() {
+            $("#game-space").empty();
 
-          $("#game-space")
-            .show()
-            .fadeIn(500);
+            $("#game-space").fadeIn(3000);
+          }, 7000);
 
-          $("#game-space").prepend(yaGotCaughtLackin);
-          $("#game-space").append(answerCard);
-          $("#game-space").append(answerReveal);
-          $("#game-space")
-            .show()
-            .fadeIn(500);
+          // $("#game-space").prepend(yaGotCaughtLackin);
+          // $("#game-space").append(answerCard);
+          // $("#game-space").append(answerReveal);
+          // $("#game-space");
+          // // .show()
+          // // .fadeIn(500);
 
           $("#game-space").prepend(yaGotCaughtLackin);
           $("#game-space").append(answerCard);
           $("#game-space").append(answerReveal);
         }
-      },
+      }
 
-      clearGameSpace: function() {}
-    },
-
-    //this function will control our timer
-    timerChallengeMode: function() {}
+      //this function will control our timer
+    }
   }
 };
 
-document.addEventListener("click", function() {
+var startButton = $("<img></img>", {
+  class: "submit",
+  src: "assets/img/StartGame.jpg",
+  height: "60px",
+  width: "100px",
+  id: "start-game"
+});
+$("#solid-text").append(startButton);
+$("<p></p>", {
+  text: "press here to mute/unmute",
+  id: "instructions"
+}).appendTo(".transparent-bg");
+
+$("#start-game").click(function() {
+  $("#game-space").fadeOut(3000);
+  setTimeout(function() {
+    $("#game-space").empty();
+
+    $("#game-space").fadeIn(3000);
+
+    television.TriviaGame.gameMechanics.drawQuestion(0);
+  }, 6500);
+});
+
+//controls muting/unmuting on home screen
+
+document.getElementById("instructions").addEventListener("click", function() {
   if (document.getElementById("video-element").muted == false) {
     document.getElementById("video-element").muted = true;
   } else if (document.getElementById("video-element").muted == true) {
     document.getElementById("video-element").muted = false;
   }
 });
-$("#solid-text").append(
-  $("<button> START GAME </button>", {
-    name: "Start Game",
-    id: "start-button"
-  })
-);
 
-// empty source
+// timers https://www.youtube.com/watch?v=VvBphozbias
 
 // television.TriviaGame.gameMechanics.drawQuestion(0);
 // television.TriviaGame.gameMechanics.drawQuestion(1);
-television.TriviaGame.gameMechanics.drawQuestion(2);
+// television.TriviaGame.gameMechanics.drawQuestion(2);
 // television.TriviaGame.gameMechanics.drawQuestion(3);
 // television.TriviaGame.gameMechanics.drawQuestion(4);
 // television.TriviaGame.gameMechanics.drawQuestion(5);
