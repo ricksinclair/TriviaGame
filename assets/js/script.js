@@ -43,21 +43,7 @@ var television = {
           "Grandmaster Flash, Melle Mel, The Kidd Creole, Keef Cowboy, Mr. Ness/Scorpio, and Rahiem",
         CorrectAnswer:
           "Grandmaster Flash, Melle Mel, The Kidd Creole, Keef Cowboy, Mr. Ness/Scorpio, and Rahiem",
-
-        actionSet: function() {
-          var imgUrl = "";
-          var soundClipUrl = "";
-          var video = $("<video />", {
-            id: "video-element",
-            src: "http://video-js.zencoder.com/oceans-clip.mp4",
-            type: "video/mp4",
-            controls: false,
-            loop: true,
-            muted: false,
-            style: "width:100%; height:100%;"
-          });
-          video.appendTo($("#tv-pic"));
-        }
+        videoUrl: "assets/video/GrandmasterFlash.mp4"
       },
 
       {
@@ -69,10 +55,7 @@ var television = {
         C: "Big L",
         D: "Stack Bundles",
         CorrectAnswer: "Big L",
-        actionset: function() {
-          var imgUrl = "";
-          var soundClipUrl = "";
-        }
+        videoUrl: "assets/video/BigL.mp4"
       },
       {
         question:
@@ -83,10 +66,7 @@ var television = {
         C: "The Notorious B.I.G.",
         D: "Eric B. and Rakim.",
         CorrectAnswer: "Wu-Tang Clan",
-        actionset: function() {
-          var imgUrl = "";
-          var soundClipUrl = "";
-        }
+        videoUrl: "assets/video/WuVideo.mp4"
       },
       {
         question:
@@ -97,10 +77,7 @@ var television = {
         C: "Young Jeezy",
         D: "Jay-z",
         CorrectAnswer: "2PAC",
-        actionset: function() {
-          var imgUrl = "";
-          var soundClipUrl = "";
-        }
+        videoUrl: "assets/video/2pac.mp4"
       },
       {
         question:
@@ -111,10 +88,7 @@ var television = {
         C: "Busta Rhymes",
         D: "DMX",
         CorrectAnswer: "Nas",
-        actionset: function() {
-          var imgUrl = "";
-          var soundClipUrl = "";
-        }
+        videoUrl: "assets/video/WuVideo.mp4"
       },
       {
         question:
@@ -125,11 +99,7 @@ var television = {
         C: "$10,000",
         D: "$50,000",
         CorrectAnswer: "6",
-
-        actionset: function() {
-          var imgUrl = "";
-          var soundClipUrl = "";
-        }
+        videoUrl: "assets/video/WuVideo.mp4"
       },
       {
         question:
@@ -139,11 +109,7 @@ var television = {
         C: "Queen Latifah",
         D: "Da Brat",
         CorrectAnswer: "Queen Latifah",
-
-        actionset: function() {
-          var imgUrl = "";
-          var soundClipUrl = "";
-        }
+        videoUrl: "assets/video/WuVideo.mp4"
       },
       {
         question:
@@ -154,11 +120,7 @@ var television = {
         C: "10",
         D: "50",
         CorrectAnswer: "6",
-
-        actionset: function() {
-          var imgUrl = "";
-          var soundClipUrl = "";
-        }
+        videoUrl: "assets/video/WuVideo.mp4"
       },
       {
         question: "BIGGIE QUESTION",
@@ -168,11 +130,7 @@ var television = {
         C: "$10,000",
         D: "$50,000",
         CorrectAnswer: "6",
-
-        actionset: function() {
-          var imgUrl = "";
-          var soundClipUrl = "";
-        }
+        videoUrl: "assets/video/WuVideo.mp4"
       }
     ],
 
@@ -263,6 +221,7 @@ var television = {
           $("game-space").empty();
           television.TriviaGame.gameMechanics.checkAnswer(indexNumber);
         });
+        television.TriviaGame.gameMechanics.addStatic();
         $("#game-space").append(form);
         $(form).append(question);
         $(hr1).insertAfter(question);
@@ -289,6 +248,37 @@ var television = {
         $("#video-element").fadeOut(8000, "linear");
       },
 
+      changeChannel: function(indexNumber) {
+        var videoSource = $("#video-source");
+        var videoElement = $("#video-element");
+        videoElement.trigger("pause");
+        videoSource.removeAttr("src"); // empty source
+        videoSource.trigger("load");
+        videoElement.trigger("load");
+        videoSource.attr(
+          "src",
+          television.TriviaGame.questionBank[indexNumber].videoUrl
+        );
+        videoElement.trigger("play");
+        if (document.getElementById("video-element").muted == false) {
+          document.getElementById("video-element").muted = true;
+        }
+      },
+
+      addStatic: function() {
+        var videoSource = $("#video-source");
+        var videoElement = $("#video-element");
+        videoElement.trigger("pause");
+        videoSource.removeAttr("src"); // empty source
+        videoSource.trigger("load");
+        videoElement.trigger("load");
+        videoSource.attr(
+          "src",
+          "assets/video/TV+Static+VHS+Recorder+Overlay+-+3D+Color.mp4"
+        );
+        videoElement.trigger("play");
+      },
+
       checkAnswer: function(indexNumber) {
         console.log("the index number is:" + indexNumber);
         console.log($("[name=radioAnswer]:checked").val());
@@ -299,28 +289,82 @@ var television = {
           television.TriviaGame.questionBank[indexNumber].CorrectAnswer
         ) {
           console.log("true");
+          var onPoint = $("<h1></h1>", {
+            id: "correct-notice",
+            text: "You're on Point!"
+          });
           var answerReveal = $("<h3></h3>", {
             id: answerReveal
           }).text(
             "The correct answer was: " +
               television.TriviaGame.questionBank[indexNumber].CorrectAnswer
           );
-          $("#game-space").fadeOut(1000, "linear");
-          $("#game-space").empty();
-          $("<h1></h1>", {
+          var answerCard = $("<h1></h1>", {
             id: "question-asked",
             text: television.TriviaGame.questionBank[indexNumber].question
-          }).append("#game-space");
-          console.log($("#question-asked"));
-          $("#game-space").show();
-          $("#game-space").fadeIn(1000, "linear");
+          });
+          $("#game-space").fadeOut(400);
+          $("#game-space")
+            .empty()
+            .hide();
 
+          $("#game-space")
+            .show()
+            .fadeIn(500);
+
+          $("#game-space").prepend(onPoint);
+          $("#game-space").append(answerCard);
+          $("#game-space").append(answerReveal);
+          $("#game-space")
+            .show()
+            .fadeIn(500);
+
+          $("#game-space").prepend(onPoint);
+          $("#game-space").append(answerCard);
+          $("#game-space").append(answerReveal);
+          $("#game-space").addClass("transparent-bg");
+
+          console.log($(""));
+          television.TriviaGame.gameMechanics.changeChannel(indexNumber);
           television.TriviaGame.userScore++;
 
           console.log(television.TriviaGame.userScore);
           television.TriviaGame.correctAnswers++;
         } else {
           console.log("false");
+          var yaGotCaughtLackin = $("<h1></h1>", {
+            id: "incorrect-notice",
+            text: "You're slackin on your mackin'!"
+          });
+          var answerReveal = $("<h3></h3>", {
+            id: answerReveal
+          }).text(
+            "The correct answer was: " +
+              television.TriviaGame.questionBank[indexNumber].CorrectAnswer
+          );
+          var answerCard = $("<h1></h1>", {
+            id: "question-asked",
+            text: television.TriviaGame.questionBank[indexNumber].question
+          });
+          $("#game-space").fadeOut(400);
+          $("#game-space")
+            .empty()
+            .hide();
+
+          $("#game-space")
+            .show()
+            .fadeIn(500);
+
+          $("#game-space").prepend(yaGotCaughtLackin);
+          $("#game-space").append(answerCard);
+          $("#game-space").append(answerReveal);
+          $("#game-space")
+            .show()
+            .fadeIn(500);
+
+          $("#game-space").prepend(yaGotCaughtLackin);
+          $("#game-space").append(answerCard);
+          $("#game-space").append(answerReveal);
         }
       },
 
@@ -331,9 +375,26 @@ var television = {
     timerChallengeMode: function() {}
   }
 };
-television.TriviaGame.gameMechanics.drawQuestion(0);
+
+document.addEventListener("click", function() {
+  if (document.getElementById("video-element").muted == false) {
+    document.getElementById("video-element").muted = true;
+  } else if (document.getElementById("video-element").muted == true) {
+    document.getElementById("video-element").muted = false;
+  }
+});
+$("#solid-text").append(
+  $("<button> START GAME </button>", {
+    name: "Start Game",
+    id: "start-button"
+  })
+);
+
+// empty source
+
+// television.TriviaGame.gameMechanics.drawQuestion(0);
 // television.TriviaGame.gameMechanics.drawQuestion(1);
-// television.TriviaGame.gameMechanics.drawQuestion(2);
+television.TriviaGame.gameMechanics.drawQuestion(2);
 // television.TriviaGame.gameMechanics.drawQuestion(3);
 // television.TriviaGame.gameMechanics.drawQuestion(4);
 // television.TriviaGame.gameMechanics.drawQuestion(5);
