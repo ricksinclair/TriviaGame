@@ -86,8 +86,8 @@ var television = {
         B: "$6,000",
         C: "$10,000",
         D: "$50,000",
-        CorrectAnswer: "6",
-        videoUrl: "assets/video/WuVideo.mp4"
+        CorrectAnswer: "$6,000",
+        videoUrl: "assets/video/rockthebells.mp4"
       },
       {
         question:
@@ -97,28 +97,29 @@ var television = {
         C: "Queen Latifah",
         D: "Da Brat",
         CorrectAnswer: "Queen Latifah",
-        videoUrl: "assets/video/WuVideo.mp4"
+        videoUrl: "assets/video/queenlatifah.mp4"
       },
       {
         question:
-          ' In which classic rap song would you hear the line, "Most of my heroes don\'t appear on no stamps"?',
+          "Name this 'World Class Wrecking Crew' alumn who helped launch the careers of mulitple biopic subjects and music icons:",
 
-        A: "20",
-        B: "6",
-        C: "10",
-        D: "50",
-        CorrectAnswer: "6",
-        videoUrl: "assets/video/WuVideo.mp4"
+        A: "Uncle Luke",
+        B: "Master P",
+        C: "Dr. Dre",
+        D: "J Prince",
+        CorrectAnswer: "Dr. Dre",
+        videoUrl: "assets/video/DrDre.mp4"
       },
       {
-        question: "BIGGIE QUESTION",
+        question:
+          "Which rapper confessed that a T-Bone Steak Cheese Eggs and Welch's grape was his favorite breafast? ",
 
-        A: "$20,000",
-        B: "$6,00",
-        C: "$10,000",
-        D: "$50,000",
-        CorrectAnswer: "6",
-        videoUrl: "assets/video/WuVideo.mp4"
+        A: "Busta Rhymes",
+        B: "Big Pun",
+        C: "Fat Joe",
+        D: "Notorious BIG",
+        CorrectAnswer: "Notorious BIG",
+        videoUrl: "assets/video/biggie.mp4"
       }
     ],
 
@@ -381,7 +382,7 @@ var television = {
               indexNumber + 1 <
               television.TriviaGame.questionBank.length - 1
             ) {
-              $("#game-space").fadeOut(3000);
+              $("#game-space").fadeOut(4000);
               setTimeout(function() {
                 $("#game-space").empty();
 
@@ -409,16 +410,16 @@ var television = {
           $("#game-space").fadeOut(5000);
           setTimeout(function() {
             $("#game-space").empty();
-          }, 1000);
+          }, 5000);
           setTimeout(function() {
-            $("#game-space").fadeIn(3000);
+            $("#game-space").fadeIn(5000);
 
             $("#game-space").prepend(yaGotCaughtLackin);
             $("#game-space").append(answerCard);
             $("#game-space").append(answerReveal);
             $("#game-space")
               .append(nextButton)
-              .fadeIn(2000);
+              .fadeIn(5000);
           }, 7000);
 
           // $("#game-space").prepend(yaGotCaughtLackin);
