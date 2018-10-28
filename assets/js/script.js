@@ -370,6 +370,27 @@ var television = {
           );
           television.TriviaGame.correctAnswers++;
         } else {
+          var nextButton = $("<img></img>", {
+            id: "next",
+            class: "submit",
+            src: "assets/img/next.jpg",
+            height: "60px",
+            width: "100px"
+          }).click(function() {
+            if (
+              indexNumber + 1 <
+              television.TriviaGame.questionBank.length - 1
+            ) {
+              $("#game-space").fadeOut(3000);
+              setTimeout(function() {
+                $("#game-space").empty();
+
+                television.TriviaGame.gameMechanics.drawQuestion(
+                  indexNumber + 1
+                );
+              }, 3000);
+            }
+          });
           console.log("false");
           var yaGotCaughtLackin = $("<h1></h1>", {
             id: "incorrect-notice",
@@ -385,11 +406,19 @@ var television = {
             id: "question-asked",
             text: television.TriviaGame.questionBank[indexNumber].question
           });
-          $("#game-space").fadeOut(3000);
+          $("#game-space").fadeOut(5000);
           setTimeout(function() {
             $("#game-space").empty();
-
+          }, 1000);
+          setTimeout(function() {
             $("#game-space").fadeIn(3000);
+
+            $("#game-space").prepend(yaGotCaughtLackin);
+            $("#game-space").append(answerCard);
+            $("#game-space").append(answerReveal);
+            $("#game-space")
+              .append(nextButton)
+              .fadeIn(2000);
           }, 7000);
 
           // $("#game-space").prepend(yaGotCaughtLackin);
@@ -398,10 +427,6 @@ var television = {
           // $("#game-space");
           // // .show()
           // // .fadeIn(500);
-
-          $("#game-space").prepend(yaGotCaughtLackin);
-          $("#game-space").append(answerCard);
-          $("#game-space").append(answerReveal);
         }
       }
 
@@ -432,6 +457,22 @@ $("#start-game").click(function() {
 
     television.TriviaGame.gameMechanics.drawQuestion(0);
   }, 6500);
+  var nextButton = $("<img></img>", {
+    id: "next",
+    class: "submit",
+    src: "assets/img/next.jpg",
+    height: "60px",
+    width: "100px"
+  }).click(function() {
+    if (indexNumber + 1 < television.TriviaGame.questionBank.length - 1) {
+      $("#game-space").fadeOut(3000);
+      setTimeout(function() {
+        $("#game-space").empty();
+
+        television.TriviaGame.gameMechanics.drawQuestion(indexNumber + 1);
+      }, 3000);
+    }
+  });
 });
 
 //controls muting/unmuting on home screen
