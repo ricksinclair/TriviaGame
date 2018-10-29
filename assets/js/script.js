@@ -181,13 +181,13 @@ var television = {
 
     //this contains the game mechanics.
     gameMechanics: {
-      redrawStart: function(message, videoffset) {
+      endGame: function(message, videoffset) {
         $("#game-space").empty();
 
         $("#game-space").fadeOut(1000);
         setTimeout(function() {}, 3000);
         television.TriviaGame.gameMechanics.changeChannel(
-          television.TriviaGame.questionBank.length
+          television.TriviaGame.questionBank.length - 1 + videoffset
         );
         setTimeout(function() {
           $("#game-space").fadeIn(3000);
@@ -213,7 +213,7 @@ var television = {
               setTimeout(function() {
                 $("#game-space").empty();
                 television.TriviaGame.gameMechanics.changeChannel(
-                  television.TriviaGame.questionBank.length + videoffset
+                  television.TriviaGame.videoBank.length - 1
                 );
                 $("#game-space").fadeIn(3000);
 
@@ -477,16 +477,34 @@ var television = {
                 television.TriviaGame.userScore >=
                 television.TriviaGame.questionBank.length * 0.65
               ) {
-                television.TriviaGame.gameMechanics.redrawStart(
-                  "You did it fam!",
+                console.log("win condition met");
+                television.TriviaGame.gameMechanics.endGame(
+                  "You did it fam! Your score was: " +
+                    television.TriviaGame.userScore +
+                    " or " +
+                    Math.floor(
+                      (television.TriviaGame.userScore /
+                        television.TriviaGame.questionBank.length) *
+                        100
+                    ) +
+                    "% Correct",
                   2
                 );
               } else if (
                 television.TriviaGame.userScore <
-                television.TriviaGame.questionBank.length * 0.65
+                Math.floor(television.TriviaGame.questionBank.length * 0.65)
               ) {
-                television.TriviaGame.gameMechanics.redrawStart(
-                  "Well, there's alway web development....",
+                console.log("loss codition met");
+                television.TriviaGame.gameMechanics.endGame(
+                  "Well, there's alway web development...Your score was: " +
+                    television.TriviaGame.userScore +
+                    " or " +
+                    Math.floor(
+                      (television.TriviaGame.userScore /
+                        television.TriviaGame.questionBank.length) *
+                        100
+                    ) +
+                    "% Correct",
                   3
                 );
               }
@@ -653,14 +671,7 @@ var startButton = $("<img></img>", {
   height: "60px",
   width: "100px",
   id: "start-game"
-});
-$("#solid-text").append(startButton);
-$("<p></p>", {
-  text: "press here to mute/unmute",
-  id: "instructions"
-}).appendTo("#solid-text");
-
-$("#start-game").click(function() {
+}).click(function() {
   if (transitional == false) {
     transitional = true;
 
@@ -675,6 +686,26 @@ $("#start-game").click(function() {
     }, 6500);
   }
 });
+$("#solid-text").append(startButton);
+$(startButton).click(function() {
+  if (transitional == false) {
+    transitional = true;
+
+    document.getElementById("start-game").disabled = true;
+    $("#game-space").fadeOut(3000);
+    setTimeout(function() {
+      $("#game-space").empty();
+
+      $("#game-space").fadeIn(3000);
+
+      television.TriviaGame.gameMechanics.drawQuestion(0);
+    }, 6500);
+  }
+});
+$("<p></p>", {
+  text: "press here to mute/unmute",
+  id: "instructions"
+}).appendTo("#solid-text");
 
 fadeMouse();
 
