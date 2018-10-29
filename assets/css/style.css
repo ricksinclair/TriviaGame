@@ -81,6 +81,19 @@ body {
   font-family: "Oswald", sans-serif;
   font-size-adjust: initial;
 }
+#game-space-win-loss-screen {
+  z-index: 7;
+  position: inherit;
+  left: 9%;
+  bottom: 18%;
+  width: 600px;
+  height: 380px;
+  background-size: cover;
+  background-color: transparent;
+  color: white;
+  font-family: "Oswald", sans-serif;
+  font-size-adjust: initial;
+}
 
 .submit:hover {
   transition: 0.3s;
@@ -117,4 +130,19 @@ body {
 #next {
   position: relative;
   left: 2.5%;
+  bottom: 1%;
+}
+
+#mouseoverDisabler {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0); /* just for demo. make it 0.0 */
+  z-index: 10000;
+}
+
+#answer-reveal {
+  border-spacing: 50%;
 }

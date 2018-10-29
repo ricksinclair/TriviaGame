@@ -32,7 +32,7 @@ add timer to question notification screen that creates a next question button.
 One mic was a sample of what phil collins
 
 
-
+fade out entire body on end of victory/loss screeen and then fade back in and innerhtml into body with original index.html
 
 
 

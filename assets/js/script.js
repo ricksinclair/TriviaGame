@@ -5,9 +5,9 @@ var television = {
   TriviaGame: {
     userScore: 0,
     correctAnswers: 0,
-
-    timers: function() {},
-
+    total_seconds: 25,
+    current_index: 0,
+    timerToggled: true,
     questionBank: [
       //This is the object array that holds all of the questions
       //and answers. My goal was to create a structure that
@@ -60,12 +60,12 @@ var television = {
         question:
           "What popular rap artist has a god-mother on the FBI Most Wanted List?",
 
-        A: "2PAC",
+        A: "Tupac Shakur",
         B: "Lil' Wayne",
         C: "Young Jeezy",
         D: "Jay-z",
-        CorrectAnswer: "2PAC",
-        videoUrl: "assets/video/2pac.mp4"
+        CorrectAnswer: "Tupac Shakur",
+        videoUrl: "assets/video/pac.mp4"
       },
       {
         question:
@@ -110,6 +110,18 @@ var television = {
         CorrectAnswer: "Dr. Dre",
         videoUrl: "assets/video/DrDre.mp4"
       },
+
+      {
+        question:
+          "Which rapper/singer shares a birthday with Bill Clinton, Coco Chanel, and the developer of this web app?",
+
+        A: "The Game",
+        B: "Nate Dogg",
+        C: "Prodigy",
+        D: "Hopsin",
+        CorrectAnswer: "Nate Dogg",
+        videoUrl: "assets/video/NateDogg.mp4"
+      },
       {
         question:
           "Which rapper confessed that a T-Bone Steak Cheese Eggs and Welch's grape was his favorite breafast? ",
@@ -125,14 +137,32 @@ var television = {
 
     //this contains the game mechanics.
     gameMechanics: {
+      timers: function() {
+        if (television.timerToggled == true) {
+          console.log(television.TriviaGame.total_seconds);
+          $("#timer-display").text(television.TriviaGame.total_seconds);
+
+          if (television.TriviaGame.total_seconds <= 0) {
+            television.TriviaGame.gameMechanics.checkAnswer(current_index);
+          } else {
+            television.TriviaGame.total_seconds =
+              television.TriviaGame.total_seconds - 1;
+            setTimeout(television.TriviaGame.gameMechanics.timers, 1000);
+          }
+        }
+      },
       x: 0,
       drawQuestion: function(indexNumber) {
+        current_index = indexNumber;
+
+        transitional = true;
         var CurrentQuestion =
           television.TriviaGame.questionBank[indexNumber].question;
         var answerA = television.TriviaGame.questionBank[indexNumber].A;
         var answerB = television.TriviaGame.questionBank[indexNumber].B;
         var answerC = television.TriviaGame.questionBank[indexNumber].C;
         var answerD = television.TriviaGame.questionBank[indexNumber].D;
+        television.TriviaGame.total_seconds = 25;
 
         var form = $("<form></form>", {
           id: "question-card"
@@ -206,16 +236,24 @@ var television = {
           height: "60px",
           width: "100px"
         }).click(function() {
-          event.preventDefault();
-          $("game-space").empty();
-          television.TriviaGame.gameMechanics.checkAnswer(indexNumber);
+          if (transitional == false) {
+            event.preventDefault();
+            $("game-space").empty();
+            transitional = true;
+            television.TriviaGame.gameMechanics.checkAnswer(indexNumber);
+          }
         });
 
         var timerDisplay = $("<h1></h1>", {
           text: " time left: 25",
           id: "timer-display"
         });
+        var mouseoverDisabler = $("<div></div>", {
+          id: mouseoverDisabler
+        });
+
         television.TriviaGame.gameMechanics.addStatic();
+        // $(mouseoverDisabler).prepend("#game-space");
         $("#game-space").fadeIn(3000);
         $("#game-space").append(form);
         $(form).append(question);
@@ -234,6 +272,9 @@ var television = {
         $(hr5).insertAfter(choiceDLabel);
         $(submitButton).insertAfter(hr5);
         $(timerDisplay).insertAfter(submitButton);
+        transitional = false;
+        television.timerToggled = true;
+        television.TriviaGame.gameMechanics.timers(indexNumber);
       },
 
       fadeGameSpace: function() {
@@ -285,6 +326,39 @@ var television = {
       },
 
       checkAnswer: function(indexNumber) {
+        television.timerToggled = false;
+
+        var nextButton = $("<img></img>", {
+          id: "next",
+          class: "submit",
+          src: "assets/img/next.jpg",
+          height: "60px",
+          width: "100px"
+        }).click(function() {
+          if (transitional == false) {
+            transitional = true;
+            if (
+              indexNumber + 1 <=
+              television.TriviaGame.questionBank.length - 1
+            ) {
+              $("#game-space").fadeOut(3000);
+              setTimeout(function() {
+                $("#game-space").empty();
+                if (transitional == true) {
+                  television.TriviaGame.gameMechanics.drawQuestion(
+                    indexNumber + 1
+                  );
+                }
+              }, 3000);
+            } else if (indexNumber + 1 > television.questionBank.length - 1) {
+              console.log("user score is: " + userScore);
+            }
+          }
+        });
+        var staticAudio = $("<audio />", {
+          id: "static-audio",
+          src: "assets/audio/FM Radio Tune 05 Sound Effect.mp3"
+        });
         console.log("the index number is:" + indexNumber);
         console.log($("[name=radioAnswer]:checked").val());
         var userAnswer = $("input[name='radioAnswer']:checked").val();
@@ -293,6 +367,7 @@ var television = {
           userAnswer ==
           television.TriviaGame.questionBank[indexNumber].CorrectAnswer
         ) {
+          transitional = true;
           console.log("true");
           var onPoint = $("<h1></h1>", {
             id: "correct-notice",
@@ -315,51 +390,35 @@ var television = {
           // $("#game-space");
           // .show()
           // .fadeIn(500);
-          var nextButton = $("<img></img>", {
-            id: "next",
-            class: "submit",
-            src: "assets/img/next.jpg",
-            height: "60px",
-            width: "100px"
-          }).click(function() {
-            if (
-              indexNumber + 1 <
-              television.TriviaGame.questionBank.length - 1
-            ) {
-              $("#game-space").fadeOut(3000);
-              setTimeout(function() {
-                $("#game-space").empty();
 
-                television.TriviaGame.gameMechanics.drawQuestion(
-                  indexNumber + 1
-                );
-              }, 3000);
-            }
-          });
-          var staticAudio = $("<audio />", {
-            id: "static-audio",
-            src: "assets/audio/FM Radio Tune 05 Sound Effect.mp3"
-          });
           $(staticAudio)
             .get(0)
             .play();
 
           $("#game-space").fadeOut(3000);
           setTimeout(function() {
+            var solidtext = $("<div></div>", {
+              id: "solid-text"
+            });
             $("#game-space").empty();
 
             $("#game-space").fadeIn();
-
-            $("#game-space").prepend(onPoint);
-            $("#game-space").append(answerCard);
-            $("#game-space").append(answerReveal);
-            $("#game-space").addClass("transparent-bg");
+            $("#game-space").prepend(solidtext);
+            $("#solid-text").prepend(onPoint);
+            $("#solid-text").append(answerCard);
+            $("#solid-text").append(answerReveal);
+            $("#solid-text").addClass("transparent-bg");
+            $("<p></p>", {
+              text: "press here to mute/unmute",
+              id: "instructions"
+            }).appendTo("#solid-text");
             setTimeout(function() {
-              $("#game-space")
+              $("#solid-text")
                 .append(nextButton)
                 .fadeIn(2000);
             }, 5000);
-
+            fadeMouse();
+            muteVid();
             television.TriviaGame.gameMechanics.changeChannel(indexNumber);
           }, 7000);
 
@@ -369,29 +428,13 @@ var television = {
             "This is the user's current score:" +
               television.TriviaGame.userScore
           );
-          television.TriviaGame.correctAnswers++;
+          transitional = false;
         } else {
-          var nextButton = $("<img></img>", {
-            id: "next",
-            class: "submit",
-            src: "assets/img/next.jpg",
-            height: "60px",
-            width: "100px"
-          }).click(function() {
-            if (
-              indexNumber + 1 <
-              television.TriviaGame.questionBank.length - 1
-            ) {
-              $("#game-space").fadeOut(4000);
-              setTimeout(function() {
-                $("#game-space").empty();
+          transitional = true;
+          $(staticAudio)
+            .get(0)
+            .play();
 
-                television.TriviaGame.gameMechanics.drawQuestion(
-                  indexNumber + 1
-                );
-              }, 3000);
-            }
-          });
           console.log("false");
           var yaGotCaughtLackin = $("<h1></h1>", {
             id: "incorrect-notice",
@@ -412,29 +455,61 @@ var television = {
             $("#game-space").empty();
           }, 5000);
           setTimeout(function() {
+            var solidtext = $("<div></div>", {
+              id: "solid-text"
+            });
             $("#game-space").fadeIn(5000);
+            $("#game-space").prepend(solidtext);
+            $("#solid-text").prepend(yaGotCaughtLackin);
+            $("#solid-text").append(answerCard);
+            $("#solid-text").append(answerReveal);
+            setTimeout(function() {
+              $("#solid-text")
+                .append(nextButton)
+                .fadeIn(2000);
+              transitional = false;
+            }, 5000);
 
-            $("#game-space").prepend(yaGotCaughtLackin);
-            $("#game-space").append(answerCard);
-            $("#game-space").append(answerReveal);
-            $("#game-space")
-              .append(nextButton)
-              .fadeIn(5000);
+            $("#solid-text").addClass("transparent-bg");
+            $("<p></p>", {
+              text: "press here to mute/unmute",
+              id: "instructions"
+            }).appendTo("#solid-text");
+            fadeMouse();
           }, 7000);
-
-          // $("#game-space").prepend(yaGotCaughtLackin);
-          // $("#game-space").append(answerCard);
-          // $("#game-space").append(answerReveal);
-          // $("#game-space");
-          // // .show()
-          // // .fadeIn(500);
+          console.log(
+            "Answer Wrong. This is the user's current score: " +
+              television.TriviaGame.userScore
+          );
         }
       }
-
-      //this function will control our timer
     }
   }
 };
+
+function fadeMouse() {
+  var fadeout = null;
+
+  $("html").mousemove(function(e) {
+    $("#solid-text")
+      .stop()
+      .fadeIn(300);
+    if (fadeout != null) {
+      clearTimeout(fadeout);
+    }
+    fadeout = setTimeout(hide_solidText, 5000);
+  });
+
+  function hide_solidText() {
+    $("#solid-text")
+      .stop()
+      .fadeOut(500);
+  }
+}
+
+//had to use when statement + thenable boolean to make this code only execute during non-transitional periods.
+
+var transitional = false;
 
 var startButton = $("<img></img>", {
   class: "submit",
@@ -447,45 +522,53 @@ $("#solid-text").append(startButton);
 $("<p></p>", {
   text: "press here to mute/unmute",
   id: "instructions"
-}).appendTo(".transparent-bg");
+}).appendTo("#solid-text");
 
 $("#start-game").click(function() {
-  $("#game-space").fadeOut(3000);
-  setTimeout(function() {
-    $("#game-space").empty();
+  if (transitional == false) {
+    transitional = true;
 
-    $("#game-space").fadeIn(3000);
+    document.getElementById("start-game").disabled = true;
+    $("#game-space").fadeOut(3000);
+    setTimeout(function() {
+      $("#game-space").empty();
 
-    television.TriviaGame.gameMechanics.drawQuestion(0);
-  }, 6500);
-  var nextButton = $("<img></img>", {
-    id: "next",
-    class: "submit",
-    src: "assets/img/next.jpg",
-    height: "60px",
-    width: "100px"
-  }).click(function() {
-    if (indexNumber + 1 < television.TriviaGame.questionBank.length - 1) {
-      $("#game-space").fadeOut(3000);
-      setTimeout(function() {
-        $("#game-space").empty();
+      $("#game-space").fadeIn(3000);
 
-        television.TriviaGame.gameMechanics.drawQuestion(indexNumber + 1);
-      }, 3000);
-    }
-  });
-});
-
-//controls muting/unmuting on home screen
-
-document.getElementById("instructions").addEventListener("click", function() {
-  if (document.getElementById("video-element").muted == false) {
-    document.getElementById("video-element").muted = true;
-  } else if (document.getElementById("video-element").muted == true) {
-    document.getElementById("video-element").muted = false;
+      television.TriviaGame.gameMechanics.drawQuestion(0);
+    }, 6500);
   }
 });
 
+fadeMouse();
+
+//   //if statement 1st that checks for end game
+//   //if and else if nested for win and losss condition.
+//   //1 h1 element saying "yo fam, you won!"
+//   // fade and then static to win video
+//   // loss screen fade and then static
+//   //to "ya lost homie".
+// plus additional bonus video
+//   // found this fade out div on mouse still hack
+
+//   // from :  https://stackoverflow.com/questions/1973772/jquery-mousemove-fade-in-out-element
+
+//   ///else if that checks for continue game
+//   //
+
+// });
+
+//controls muting/unmuting on home screen
+function muteVid() {
+  document.getElementById("instructions").addEventListener("click", function() {
+    if (document.getElementById("video-element").muted == false) {
+      document.getElementById("video-element").muted = true;
+    } else if (document.getElementById("video-element").muted == true) {
+      document.getElementById("video-element").muted = false;
+    }
+  });
+}
+muteVid();
 // timers https://www.youtube.com/watch?v=VvBphozbias
 
 // television.TriviaGame.gameMechanics.drawQuestion(0);
@@ -495,6 +578,7 @@ document.getElementById("instructions").addEventListener("click", function() {
 // television.TriviaGame.gameMechanics.drawQuestion(4);
 // television.TriviaGame.gameMechanics.drawQuestion(5);
 // television.TriviaGame.gameMechanics.drawQuestion(6);
+// television.TriviaGame.gameMechanics.drawQuestion(7);
 // $("#video-element").fadeOut(8000, "linear");
 // television.TriviaGame.gameMechanics.fadeGameSpace();
 
