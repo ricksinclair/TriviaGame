@@ -488,7 +488,7 @@ var television = {
                         100
                     ) +
                     "% Correct",
-                  2
+                  1
                 );
               } else if (
                 television.TriviaGame.userScore <
@@ -505,7 +505,7 @@ var television = {
                         100
                     ) +
                     "% Correct",
-                  3
+                  2
                 );
               }
             }
