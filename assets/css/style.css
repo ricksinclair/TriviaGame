@@ -146,3 +146,8 @@ body {
 #answer-reveal {
   border-spacing: 50%;
 }
+
+#restart-button {
+  height: 50%;
+  width: 50%;
+}

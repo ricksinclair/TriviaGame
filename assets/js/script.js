@@ -47,11 +47,11 @@ var television = {
       },
       {
         question:
-          'Which New York rap collective ain\'t "nothing to F#($*%" with ?',
+          'Which New York rap collective ain\'t "nothing to F#($*% with ?"',
 
         A: "Onyx",
         B: "Wu-Tang Clan",
-        C: "The Notorious B.I.G.",
+        C: "Purple City Bird Gang",
         D: "Eric B. and Rakim.",
         CorrectAnswer: "Wu-Tang Clan",
         videoUrl: "assets/video/WuVideo.mp4"
@@ -65,7 +65,7 @@ var television = {
         C: "Young Jeezy",
         D: "Jay-z",
         CorrectAnswer: "Tupac Shakur",
-        videoUrl: "assets/video/pac.mp4"
+        videoUrl: "assets/video/2pac.mp4"
       },
       {
         question:
@@ -132,6 +132,50 @@ var television = {
         D: "Notorious BIG",
         CorrectAnswer: "Notorious BIG",
         videoUrl: "assets/video/biggie.mp4"
+      }
+    ],
+    /// the first of these should match 1 for 1 with the questions in the bank
+    //the last few will have to be changed in the ending logic to not break things
+
+    videoBank: [
+      {
+        videoUrl: "assets/video/GrandmasterFlash.mp4"
+      },
+      {
+        videoUrl: "assets/video/BigL.mp4"
+      },
+      {
+        videoUrl: "assets/video/WuVideo.mp4"
+      },
+      {
+        videoUrl: "assets/video/2pac.mp4"
+      },
+      {
+        videoUrl: "assets/video/NasIsLike.mp4"
+      },
+      {
+        videoUrl: "assets/video/rockthebells.mp4"
+      },
+      {
+        videoUrl: "assets/video/queenlatifah.mp4"
+      },
+      {
+        videoUrl: "assets/video/DrDre.mp4"
+      },
+      {
+        videoUrl: "assets/video/NateDogg.mp4"
+      },
+      {
+        videoUrl: "assets/video/biggie.mp4"
+      },
+      {
+        videoUrl: "assets/video/FunnyWinVideo.mp4"
+      },
+      {
+        videoUrl: "assets/video/Loser.mp4"
+      },
+      {
+        videoUrl: "asset/video/hiphopmegamix.mp4"
       }
     ],
 
@@ -237,10 +281,15 @@ var television = {
           width: "100px"
         }).click(function() {
           if (transitional == false) {
-            event.preventDefault();
-            $("game-space").empty();
+            console.log(
+              "transitional is: " + transitional + " at submitbutton click"
+            );
             transitional = true;
+            console.log("transitional should be true and is: " + transitional);
+            $("game-space").empty();
             television.TriviaGame.gameMechanics.checkAnswer(indexNumber);
+          } else {
+            return null;
           }
         });
 
@@ -294,7 +343,7 @@ var television = {
         videoElement.trigger("load");
         videoSource.attr(
           "src",
-          television.TriviaGame.questionBank[indexNumber].videoUrl
+          television.TriviaGame.videoBank[indexNumber].videoUrl
         );
         videoElement.trigger("play");
         if (document.getElementById("video-element").muted == true) {
@@ -350,8 +399,75 @@ var television = {
                   );
                 }
               }, 3000);
-            } else if (indexNumber + 1 > television.questionBank.length - 1) {
-              console.log("user score is: " + userScore);
+            } else if (
+              indexNumber + 1 >
+              television.TriviaGame.questionBank.length - 1
+            ) {
+              console.log("user score is: " + television.TriviaGame.userScore);
+              if (
+                television.TriviaGame.userScore >=
+                television.TriviaGame.questionBank.length * 0.65
+              ) {
+                television.TriviaGame.gameMechanics.changeChannel(
+                  television.TriviaGame.questionBank.length
+                );
+                $("#game-space").fadeOut(3000);
+                addStatic();
+                setTimeout(function() {
+                  $("#game-space").empty();
+                  $("<h1></h1>", {
+                    text: "You did it homie!",
+                    id: "solid-text"
+                  }).appendTo("#game-space");
+
+                  $("<p></p>", {
+                    text: "press here to mute/unmute",
+                    id: "instructions"
+                  }).appendTo("#solid-text");
+                  muteVid();
+                  $("<img>", {
+                    id: "restart-button",
+                    src: "../img/turntable.gif"
+                  });
+                  $("<p></p>", {
+                    text: "press turntable to restart",
+                    id: "ttinst"
+                  }).appendTo("#solid-text");
+                }, 1000);
+              } else if (
+                television.TriviaGame.userScore <
+                television.TriviaGame.questionBank.length * 0.65
+              ) {
+                television.TriviaGame.gameMechanics.addStatic();
+
+                television.TriviaGame.gameMechanics.changeChannel(
+                  television.TriviaGame.questionBank.length + 1
+                );
+                $("#game-space").fadeOut(3000);
+                $("#game-space").empty();
+
+                setTimeout(function() {
+                  $("#game-space").fadeIn(3000);
+                  $("<h1></h1>", {
+                    text: "Better Luck Next Time",
+                    id: "solid-text"
+                  }).appendTo("#game-space");
+
+                  $("<p></p>", {
+                    text: "press here to mute/unmute",
+                    id: "instructions"
+                  }).appendTo("#solid-text");
+                  muteVid();
+                  $("<img>", {
+                    id: "restart-button",
+                    src: "../img/turntable.gif"
+                  });
+                  $("<p></p>", {
+                    text: "press turntable to restart",
+                    id: "ttinst"
+                  }).appendTo("#solid-text");
+                }, 1000);
+              }
             }
           }
         });
@@ -413,6 +529,8 @@ var television = {
               id: "instructions"
             }).appendTo("#solid-text");
             setTimeout(function() {
+              transitional = false;
+
               $("#solid-text")
                 .append(nextButton)
                 .fadeIn(2000);
@@ -421,16 +539,13 @@ var television = {
             muteVid();
             television.TriviaGame.gameMechanics.changeChannel(indexNumber);
           }, 7000);
-
           television.TriviaGame.userScore++;
 
           console.log(
             "This is the user's current score:" +
               television.TriviaGame.userScore
           );
-          transitional = false;
         } else {
-          transitional = true;
           $(staticAudio)
             .get(0)
             .play();
@@ -508,7 +623,6 @@ function fadeMouse() {
 }
 
 //had to use when statement + thenable boolean to make this code only execute during non-transitional periods.
-
 var transitional = false;
 
 var startButton = $("<img></img>", {
@@ -581,12 +695,6 @@ muteVid();
 // television.TriviaGame.gameMechanics.drawQuestion(7);
 // $("#video-element").fadeOut(8000, "linear");
 // television.TriviaGame.gameMechanics.fadeGameSpace();
-
-// $("document").ready(function() {
-//   console.log(television.TriviaGame.questionBank);
-//   //   $("#game-space").fadeOut(1600, "linear");
-//   television.TriviaGame.gameMechanics.fadeGameSpace();
-//   console.log(television.TriviaGame.gameMechanics.fadeGameSpace);
 
 //   $("#video-src").attr("src", "../video/funny video.webm");
 // });
