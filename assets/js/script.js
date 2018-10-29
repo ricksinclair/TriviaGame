@@ -175,12 +175,79 @@ var television = {
         videoUrl: "assets/video/Loser.mp4"
       },
       {
-        videoUrl: "asset/video/hiphopmegamix.mp4"
+        videoUrl: "assets/video/hiphopmegamix.mp4"
       }
     ],
 
     //this contains the game mechanics.
     gameMechanics: {
+      redrawStart: function(message, videoffset) {
+        $("#game-space").empty();
+
+        $("#game-space").fadeOut(1000);
+        setTimeout(function() {}, 3000);
+        television.TriviaGame.gameMechanics.changeChannel(
+          television.TriviaGame.questionBank.length
+        );
+        setTimeout(function() {
+          $("#game-space").fadeIn(3000);
+          $("<h1></h1>", {
+            text: message,
+            id: "solid-text"
+          }).appendTo("#game-space");
+
+          $("<p></p>", {
+            text: "press here to mute/unmute",
+            id: "instructions"
+          }).appendTo("#solid-text");
+          muteVid();
+          $("<img></img>", {
+            id: "restart-button",
+            src: "assets/img/turntable.gif",
+            height: 90,
+            width: 160
+          })
+            .click(function() {
+              television.TriviaGame.userScore = 0;
+              $("#game-space").fadeOut(1000);
+              setTimeout(function() {
+                $("#game-space").empty();
+                television.TriviaGame.gameMechanics.changeChannel(
+                  television.TriviaGame.questionBank.length + videoffset
+                );
+                $("#game-space").fadeIn(3000);
+
+                $("#game-space").prepend("<div></div>", {
+                  id: "solid-text"
+                });
+
+                $("#game-space").append("<h1></h1>", {
+                  text: "Welcome to Hip Hop Trivia"
+                });
+                $("#game-space").append("<p></p>", {
+                  text:
+                    "This is a timed game where you will be tested on your knowledge and expertise in hip hop history!"
+                });
+                $("#game-space").append("<p></p>", {
+                  text:
+                    "If you answer over 50% of the questions correctly, you will be rewarded with a funny video!"
+                });
+                $("#game-space").append("<p></p>", {
+                  text: "stop moving mouse to fade out text"
+                });
+                $("#game-space").append("<p></p>", {
+                  text: "move mouse to fade them back in"
+                });
+                $("#game-space").append(startButton);
+              }, 3000);
+            })
+            .appendTo("#solid-text");
+          $("<p></p>", {
+            text: "press turntable to restart",
+            id: "ttinst"
+          }).appendTo("#solid-text");
+        }, 2000);
+      },
       timers: function() {
         if (television.timerToggled == true) {
           console.log(television.TriviaGame.total_seconds);
@@ -399,7 +466,9 @@ var television = {
                   );
                 }
               }, 3000);
-            } else if (
+            }
+            ///ending logic
+            else if (
               indexNumber + 1 >
               television.TriviaGame.questionBank.length - 1
             ) {
@@ -408,65 +477,18 @@ var television = {
                 television.TriviaGame.userScore >=
                 television.TriviaGame.questionBank.length * 0.65
               ) {
-                television.TriviaGame.gameMechanics.changeChannel(
-                  television.TriviaGame.questionBank.length
+                television.TriviaGame.gameMechanics.redrawStart(
+                  "You did it fam!",
+                  2
                 );
-                $("#game-space").fadeOut(3000);
-                addStatic();
-                setTimeout(function() {
-                  $("#game-space").empty();
-                  $("<h1></h1>", {
-                    text: "You did it homie!",
-                    id: "solid-text"
-                  }).appendTo("#game-space");
-
-                  $("<p></p>", {
-                    text: "press here to mute/unmute",
-                    id: "instructions"
-                  }).appendTo("#solid-text");
-                  muteVid();
-                  $("<img>", {
-                    id: "restart-button",
-                    src: "../img/turntable.gif"
-                  });
-                  $("<p></p>", {
-                    text: "press turntable to restart",
-                    id: "ttinst"
-                  }).appendTo("#solid-text");
-                }, 1000);
               } else if (
                 television.TriviaGame.userScore <
                 television.TriviaGame.questionBank.length * 0.65
               ) {
-                television.TriviaGame.gameMechanics.addStatic();
-
-                television.TriviaGame.gameMechanics.changeChannel(
-                  television.TriviaGame.questionBank.length + 1
+                television.TriviaGame.gameMechanics.redrawStart(
+                  "Well, there's alway web development....",
+                  3
                 );
-                $("#game-space").fadeOut(3000);
-                $("#game-space").empty();
-
-                setTimeout(function() {
-                  $("#game-space").fadeIn(3000);
-                  $("<h1></h1>", {
-                    text: "Better Luck Next Time",
-                    id: "solid-text"
-                  }).appendTo("#game-space");
-
-                  $("<p></p>", {
-                    text: "press here to mute/unmute",
-                    id: "instructions"
-                  }).appendTo("#solid-text");
-                  muteVid();
-                  $("<img>", {
-                    id: "restart-button",
-                    src: "../img/turntable.gif"
-                  });
-                  $("<p></p>", {
-                    text: "press turntable to restart",
-                    id: "ttinst"
-                  }).appendTo("#solid-text");
-                }, 1000);
               }
             }
           }
