@@ -91,7 +91,7 @@ var television = {
       },
       {
         question:
-          "This Hip Hop legend got their big break alongside DJ Gemini and Flavor Unit with their hit 'Princess of the Posse':  ",
+          "This Hip Hop legend is also known as the 'Princess of the Posse':  ",
         A: "Mc Lyte",
         B: "Roxanne",
         C: "Queen Latifah",
