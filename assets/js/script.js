@@ -217,28 +217,55 @@ var television = {
                 );
                 $("#game-space").fadeIn(3000);
 
-                $("#game-space").prepend("<div></div>", {
-                  id: "solid-text"
-                });
+                $("#game-space").append(
+                  $("<div></div>", {
+                    id: "solid-text"
+                  })
+                );
 
-                $("#game-space").append("<h1></h1>", {
-                  text: "Welcome to Hip Hop Trivia"
-                });
-                $("#game-space").append("<p></p>", {
-                  text:
-                    "This is a timed game where you will be tested on your knowledge and expertise in hip hop history!"
-                });
-                $("#game-space").append("<p></p>", {
-                  text:
-                    "If you answer over 50% of the questions correctly, you will be rewarded with a funny video!"
-                });
-                $("#game-space").append("<p></p>", {
-                  text: "stop moving mouse to fade out text"
-                });
-                $("#game-space").append("<p></p>", {
-                  text: "move mouse to fade them back in"
-                });
+                $("#game-space").append(
+                  $("<h1></h1>", {
+                    text: "Welcome to Hip Hop Trivia"
+                  })
+                );
+                $("#game-space").append(
+                  $("<p></p>", {
+                    text:
+                      "This is a timed game where you will be tested on your knowledge and expertise in hip hop history!"
+                  })
+                );
+                $("#game-space").append(
+                  $("<p></p>", {
+                    text:
+                      "If you answer over 50% of the questions correctly, you will be rewarded with a funny video!"
+                  })
+                );
+                $("#game-space").append(
+                  $("<p></p>", {
+                    text: "stop moving mouse to fade out text"
+                  })
+                );
+                $("#game-space").append(
+                  $("<p></p>", {
+                    text: "move mouse to fade them back in"
+                  })
+                );
                 $("#game-space").append(startButton);
+                transitional = false;
+                $(startButton).click(function() {
+                  if (transitional == false) {
+                    transitional = true;
+
+                    $("#game-space").fadeOut(3000);
+                    setTimeout(function() {
+                      $("#game-space").empty();
+
+                      $("#game-space").fadeIn(3000);
+
+                      television.TriviaGame.gameMechanics.drawQuestion(0);
+                    }, 6500);
+                  }
+                });
               }, 3000);
             })
             .appendTo("#solid-text");
@@ -687,11 +714,11 @@ var startButton = $("<img></img>", {
   }
 });
 $("#solid-text").append(startButton);
+transitional = false;
 $(startButton).click(function() {
   if (transitional == false) {
     transitional = true;
 
-    document.getElementById("start-game").disabled = true;
     $("#game-space").fadeOut(3000);
     setTimeout(function() {
       $("#game-space").empty();
