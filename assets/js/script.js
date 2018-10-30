@@ -148,7 +148,7 @@ var television = {
         videoUrl: "assets/video/WuVideo.mp4"
       },
       {
-        videoUrl: "assets/video/2pac.mp4"
+        videoUrl: "assets/video/pac.mp4"
       },
       {
         videoUrl: "assets/video/NasIsLike.mp4"
