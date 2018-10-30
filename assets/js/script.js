@@ -124,7 +124,7 @@ var television = {
       },
       {
         question:
-          "Which rapper confessed that a T-Bone Steak Cheese Eggs and Welch's grape was his favorite breafast? ",
+          "Which rapper professed that a T-Bone Steak Cheese Eggs and Welch's grape was his go-to breafast? ",
 
         A: "Busta Rhymes",
         B: "Big Pun",
@@ -523,7 +523,7 @@ var television = {
               ) {
                 console.log("loss codition met");
                 television.TriviaGame.gameMechanics.endGame(
-                  "Well, there's alway web development...Your score was: " +
+                  "Well, there's always web development...Your score was: " +
                     television.TriviaGame.userScore +
                     " or " +
                     Math.floor(
