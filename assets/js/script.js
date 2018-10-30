@@ -251,6 +251,11 @@ var television = {
                     text: "move mouse to fade them back in"
                   })
                 );
+                $("#solid-text").append(
+                  $("<p></p>", {
+                    text: "Videos unscrable with correct answers"
+                  })
+                );
                 $("<p></p>", {
                   text: "press here to mute/unmute",
                   id: "instructions"
