@@ -417,7 +417,7 @@ var television = {
         $(timerDisplay).insertAfter(submitButton);
         transitional = false;
         television.timerToggled = true;
-        television.TriviaGame.gameMechanics.timers(indexNumber);
+        television.TriviaGame.gameMechanics.timers(); //indexNumber
       },
 
       fadeGameSpace: function() {
