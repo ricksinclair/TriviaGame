@@ -65,7 +65,7 @@ var television = {
         C: "Young Jeezy",
         D: "Jay-z",
         CorrectAnswer: "Tupac Shakur",
-        videoUrl: "assets/video/2pac.mp4"
+        videoUrl: "assets/video/pac.mp4"
       },
       {
         question:
