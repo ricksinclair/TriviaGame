@@ -219,38 +219,45 @@ var television = {
 
                 $("#game-space").append(
                   $("<div></div>", {
-                    id: "solid-text"
+                    id: "solid-text",
+                    class: "transparent-bg"
                   })
                 );
 
-                $("#game-space").append(
+                $("#solid-text").append(
                   $("<h1></h1>", {
                     text: "Welcome to Hip Hop Trivia"
                   })
                 );
-                $("#game-space").append(
+                $("#solid-text").append(
                   $("<p></p>", {
                     text:
                       "This is a timed game where you will be tested on your knowledge and expertise in hip hop history!"
                   })
                 );
-                $("#game-space").append(
+                $("#solid-text").append(
                   $("<p></p>", {
                     text:
                       "If you answer over 50% of the questions correctly, you will be rewarded with a funny video!"
                   })
                 );
-                $("#game-space").append(
+                $("#solid-text").append(
                   $("<p></p>", {
                     text: "stop moving mouse to fade out text"
                   })
                 );
-                $("#game-space").append(
+                $("#solid-text").append(
                   $("<p></p>", {
                     text: "move mouse to fade them back in"
                   })
                 );
-                $("#game-space").append(startButton);
+                $("<p></p>", {
+                  text: "press here to mute/unmute",
+                  id: "instructions"
+                }).appendTo("#solid-text");
+                muteVid();
+                fadeMouse();
+                $("#solid-text").append(startButton);
                 transitional = false;
                 $(startButton).click(function() {
                   if (transitional == false) {
@@ -602,7 +609,6 @@ var television = {
                 .append(nextButton)
                 .fadeIn(2000);
             }, 5000);
-            fadeMouse();
             muteVid();
             television.TriviaGame.gameMechanics.changeChannel(indexNumber);
           }, 7000);
