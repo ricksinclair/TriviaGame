@@ -253,7 +253,7 @@ var television = {
                 );
                 $("#solid-text").append(
                   $("<p></p>", {
-                    text: "Videos unscrable with correct answers"
+                    text: "Videos unscramble with correct answers"
                   })
                 );
                 $("<p></p>", {
