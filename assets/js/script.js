@@ -238,7 +238,7 @@ var television = {
                 $("#solid-text").append(
                   $("<p></p>", {
                     text:
-                      "If you answer over 50% of the questions correctly, you will be rewarded with a funny video!"
+                      "If you answer over 65% of the questions correctly, you will be rewarded with a funny video!"
                   })
                 );
                 $("#solid-text").append(
