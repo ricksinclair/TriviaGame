@@ -124,7 +124,7 @@ var television = {
       },
       {
         question:
-          "Which rapper professed that a T-Bone Steak, Cheese Eggs, and Welch's grape was his go-to breafast? ",
+          "Which rapper professed that a T-Bone Steak, Cheese Eggs, and Welch's grape was his go-to breakfast? ",
 
         A: "Busta Rhymes",
         B: "Big Pun",
