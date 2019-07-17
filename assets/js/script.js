@@ -506,17 +506,17 @@ var television = {
                 }
               }, 3000);
             }
-            ///ending logic
+            ///ending logic 
             else if (
               indexNumber + 1 >
               television.TriviaGame.questionBank.length - 1
             ) {
-              console.log("user score is: " + television.TriviaGame.userScore);
+              // console.log("user score is: " + television.TriviaGame.userScore);
               if (
                 television.TriviaGame.userScore >=
                 television.TriviaGame.questionBank.length * 0.65
               ) {
-                console.log("win condition met");
+                // console.log("win condition met");
                 television.TriviaGame.gameMechanics.endGame(
                   "You did it fam! Your score was: " +
                     television.TriviaGame.userScore +
@@ -554,10 +554,10 @@ var television = {
           id: "static-audio",
           src: "assets/audio/FM Radio Tune 05 Sound Effect.mp3"
         });
-        console.log("the index number is:" + indexNumber);
-        console.log($("[name=radioAnswer]:checked").val());
+        // console.log("the index number is:" + indexNumber);
+        // console.log($("[name=radioAnswer]:checked").val());
         var userAnswer = $("input[name='radioAnswer']:checked").val();
-        console.log(userAnswer);
+        // console.log(userAnswer);
         if (
           userAnswer ==
           television.TriviaGame.questionBank[indexNumber].CorrectAnswer
@@ -619,16 +619,16 @@ var television = {
           }, 7000);
           television.TriviaGame.userScore++;
 
-          console.log(
-            "This is the user's current score:" +
-              television.TriviaGame.userScore
-          );
+          // console.log(
+          //   "This is the user's current score:" +
+          //     television.TriviaGame.userScore
+          // );
         } else {
           $(staticAudio)
             .get(0)
             .play();
 
-          console.log("false");
+          // console.log("false");
           var yaGotCaughtLackin = $("<h1></h1>", {
             id: "incorrect-notice",
             text: "You're slackin on your mackin'!"
