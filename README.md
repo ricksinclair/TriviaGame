@@ -1,5 +1,5 @@
-# TriviaGame
- A trivia game using html5, ccs3, and Javascript
+# Hip Hop TriviaGame
+ An old school hiphop trivia game using html5, ccs3, and Javascript.
 [Link to the game. Best viewed on desktop in Chrome or Firefox](https://ricksinclair.github.io/TriviaGame)
 
 QUICK HINT(so you can see the animations for a correct answer) -- The answer to the first question is choice D or the bottom most choice.
