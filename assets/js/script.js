@@ -69,7 +69,7 @@ var television = {
             },
             {
                 question:
-                    "Who is the once-self-dubbed  'Susan Lucci of rap' who had been nominated over thirteen times, but until that point never won a grammy?",
+                    "Who's the 'Susan Lucci of rap' who had been nominated over thirteen times, but until that point never won a grammy?",
 
                 A: "Dr. Dre",
                 B: "Nas",
