@@ -1,4 +1,4 @@
-# Hip Hop TriviaGame
+# Hip Hop Trivia Game
  An old school hiphop trivia game using html5, ccs3, and Javascript.
 [Link to the game. Best viewed on desktop in Chrome or Firefox](https://ricksinclair.github.io/TriviaGame)
 
